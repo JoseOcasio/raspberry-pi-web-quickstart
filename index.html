@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My First React Example</title>
+  </head>
+  <body>
+    <div id=root></div>
+    <script src="https://fb.me/react-15.0.0.js"></script>
+    <script src="https://fb.me/react-dom-15.0.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min.js"></script>
+    <script type="text/babel">
+
+      function Welcome(props) {
+        return <h1>Welcome to {props.name}</h1>;
+      }
+
+      function getRequest(requestName) {
+        function reqListener () {
+          console.log(this.responseText);
+        }
+
+        var oReq = new XMLHttpRequest();
+        oReq.addEventListener("load", reqListener);
+        oReq.open("GET", "/" + requestName);
+        oReq.send();
+      }
+
+      function turnOnLed () {
+        getRequest('turnOnLed');
+      }
+      function turnOffLed () {
+        getRequest('turnOffLed');
+      }
+      function blinkLed () {
+        getRequest('blinkLed');
+      }
+
+      var Button = React.createClass({
+        
+        render: function() {
+          const buttonStyle = {
+            padding: '10px',
+            margin: '10px'
+          }
+          return (
+          <div>
+            <button style={buttonStyle} onClick={this.props.buttonClick}>{this.props.title}</button>
+          </div>
+          )
+        }
+      });
+
+
+
+
+      function App() {
+        return (
+          <div>
+            <Welcome name="the blinking party" />
+            <Button buttonClick={turnOnLed} title="Turn On Led"/>
+            <Button buttonClick={turnOffLed} title="Turn Off Led"/>
+            <Button buttonClick={blinkLed} title="Turn Blinking on Led"/>
+          </div>
+        );
+      }
+
+
+      ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+  <Greeting/>
+</html>
