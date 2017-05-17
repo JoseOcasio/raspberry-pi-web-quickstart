@@ -1,10 +1,11 @@
 var http = require('http');
 var fs = require('fs');
 
+var express = require('express');
+var app = express();
+
 // Use python shell
 var PythonShell = require('python-shell');
-
-turnOnLed();
 
 function turnOnLed (){
     executePythonShell('ledOn.py');
@@ -23,24 +24,11 @@ function blinkLed(){
 function executePythonShell (pythonScript){
     var pyshell = new PythonShell(pythonScript);
 
-    pyshell.on('message', function (message) {
-        // received a message sent from the Python script (a simple "print" statement)
-        console.log(message);
-    });
-
-    // end the input stream and allow the process to exit
-    pyshell.end(function (err) {
-        if (err){
-            throw err;
-        };
-
-        console.log(pythonScript + " has been executed");
+    PythonShell.run(pythonScript, function (err) {
+      if (err) throw err;
+        console.log(pythonScript + " has finished executing");
     });
 }
-
-var express = require('express');
-var app = express();
-
 
 //api 
 app.get('/', function (req, res) {
